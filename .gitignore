@@ -1,0 +1,8 @@
+venv/
+.idea/
+dist/
+build/
+demo/
+*.egg-info/
+__pycache__/
+/ddld_import/test_data_shanghai/
