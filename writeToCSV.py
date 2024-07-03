@@ -5,7 +5,7 @@ from downloadLatestByNeighboring import do_download_latestVersion, do_neighbor
 from getClosestNode import get_closet_node, get_closet_pair_node
 
 if __name__ == '__main__':
-    base_url = "http://celldb.hdmap-inner.momenta.works"
+    # base_url = 
     osmDir = "osmDir"
     jsonDir = "jsonDir"
     data_csv = "dataset_0821.csv"

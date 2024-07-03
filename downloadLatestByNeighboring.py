@@ -7,7 +7,6 @@ import hashlib
 import os
 from collections import OrderedDict
 
-# 2022/10/17
 # download-latest
 
 logger = logging.getLogger('mylogger')
@@ -22,38 +21,38 @@ consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(logFormatter)
 logger.addHandler(consoleHandler)
 
-# 设置正确的环境(dev,dev,prod之一)及分支名称, 以及需要下载的cellid
-envType = "prod"
+# 设置正确的环境及分支名称, 以及需要下载的cellid
+# envType = 
 
-output_latest_version_url = "/cellversion/latest-version"
-download_latest_url = "/cellversion/download-latest"
+# output_latest_version_url =
+# download_latest_url = 
 
 
-def do_latestVersion(cell_id: str, branch: str, base_url: str):
+def do_latestVersion(osm_id: str, branch: str, base_url: str):
     """ 返回resp字段 """
     fullUrl = base_url + output_latest_version_url
-    query_params = {'cellId': cell_id, "branch": branch}
+    query_params = {'cellId': osm_id, "branch": branch}
     resp = requests.get(url=fullUrl, params=query_params)
     return resp.text
 
 
 def do_neighbor(cellId: str, branch, base_url: str):
-    fullUrl = base_url + "/cellversion/neighbouring"
+    fullUrl = base_url + ""
     query_params = {'cellId': cellId, "branch": branch}
     resp = requests.get(url=fullUrl, params=query_params)
     return resp
 
 
-def do_download_latestVersion(cell_id: str, branch: str, base_url: str, dest_dir: str):
+def do_download_latestVersion(osm_id: str, branch: str, base_url: str, dest_dir: str):
     # 发送请求
     fullUrl = base_url + download_latest_url
-    query_params = {'cellId': cell_id, "branch": branch}
+    query_params = {'cellId': osm_id, "branch": branch}
 
     down_res = requests.get(url=fullUrl, params=query_params)
 
     # 存入数据
-    # full_file_path = dest_dir + "/" + cell_id + "@@" + branch + "@@" + version + ".osm"
-    full_file_path = dest_dir + "/" + cell_id + ".osm"
+    # full_file_path = dest_dir + "/" + osm_id + "@@" + branch + "@@" + version + ".osm"
+    full_file_path = dest_dir + "/" + osm_id + ".osm"
     with open(full_file_path, "wb") as code:
         code.write(down_res.content)
         logger.info("full file path:{}".format(full_file_path))
@@ -67,18 +66,18 @@ if __name__ == '__main__':
         count += 1
         # base_url = the url for downloading osm files.
         parentDir = "osmDir"
-        cell_id_list = []
+        osm_id_list = []
         for root, dirs, files in os.walk(parentDir):
             for file in files:
                 if file.endswith(".osm"):
                     # 提取文件名前面的数字
                     cellId = str(file.split('.')[0])
                     # 把数字添加到 list 中
-                    cell_id_list.append(cellId)
+                    osm_id_list.append(cellId)
         neighboring_set = set()
         intersects_set = set()
 
-        cellId_set = set(cell_id_list)
+        cellId_set = set(osm_id_list)
         print(cellId_set)
         print("length_of_cellId_set:{}".format(len(cellId_set)))
 
@@ -116,9 +115,9 @@ if __name__ == '__main__':
         download_dest_dir = "./osmDir"
         cell_num = 0
         cell_num_found = 0
-        count_in_list = len(cell_id_list)
-        cell_id_set = set(cell_id_list)
-        count_in_set = len(cell_id_set)
+        count_in_list = len(osm_id_list)
+        osm_id_set = set(osm_id_list)
+        count_in_set = len(osm_id_set)
         logger.info("count_in_list{}个 ; count_in_set{}个".format(count_in_list, count_in_set))
         len_neighboring = len(new_neighboring_set)
         index = 0
